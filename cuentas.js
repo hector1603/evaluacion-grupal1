@@ -10,12 +10,12 @@ cargar = function () {
 
 }
 
+/*
+    Muestra en pantalla una tabla con la información de todas las cuentas del arreglo.
+    Columnas: NUMERO CUENTA, NOMBRE, SALDO
+    En la columna NOMBRE concatenar el nombre y el apellido
+*/
 mostrarCuentas = function () {
-    /*
-        Muestra en pantalla una tabla con la información de todas las cuentas del arreglo.
-        Columnas: NUMERO CUENTA, NOMBRE, SALDO
-        En la columna NOMBRE concatenar el nombre y el apellido
-    */
     let cmpCuentas = document.getElementById("tablaCuentas");
     let tablaCuentas = "<table><tr><th>CEDULA</th><th>NOMBRE</th><th>Nro CUENTA</th><th>SALDO</th></tr>";
     for (let i = 0; i < cuentas.length; i++) {
@@ -36,7 +36,15 @@ mostrarCuentas = function () {
     si existe retorna el objeto cuenta, caso contrario retorna null. 
 */
 buscarCuenta = function (numeroCuenta) {
-
+    let cuentaEncontrada = null;
+    for(let i = 0; i < cuentas.length; i++) {
+        let verificarCuenta = cuentas[i];
+        if(verificarCuenta.numeroCuenta == numeroCuenta) {
+            cuentaEncontrada = verificarCuenta;
+            break;
+        }
+    }
+    return cuentaEncontrada;
 }
 
 /*
@@ -46,6 +54,13 @@ buscarCuenta = function (numeroCuenta) {
 agregarCuenta = function (cuenta) {
     //Si ya existe mostrar un alert CUENTA EXISTENTE
     //Si se agrega, mostrar un alert CUENTA AGREGADA
+    let estadoCuenta = buscarCuenta(cuenta.numeroCuenta);
+    if(estadoCuenta == null) {
+        cuentas.push(cuenta);
+        alert("Cuenta agregada");
+    } else {
+        alert("Cuenta existente");
+    }
 }
 
 agregar = function () {
@@ -53,4 +68,18 @@ agregar = function () {
     //Crea un objeto cuenta y agrega los atributos con los valores de las cajas respectivas
     //Invoca a agregarCuenta
     //Invoca a mostrarCuentas
+    let valorCedula = recuperarTexto("txtCedula");
+    let valorNombre = recuperarTexto("txtNombre");
+    let valorApellido = recuperarTexto("txtApellido");
+    let valorCuenta = recuperarTexto("txtCuenta");
+
+    let nuevaCuenta = {};
+    nuevaCuenta.cedula = valorCedula;
+    nuevaCuenta.nombre = valorNombre;
+    nuevaCuenta.apellido = valorApellido;
+    nuevaCuenta.numeroCuenta = valorCuenta;
+    nuevaCuenta.saldo = 0;
+
+    agregarCuenta(nuevaCuenta);
+    mostrarCuentas();
 }
